@@ -5,7 +5,7 @@
 #
 ##############################################################
 
-AESD_ASSIGNMENTS_VERSION = f5894069f48d9ff5781e0192ea9c36e87c8e49d9
+AESD_ASSIGNMENTS_VERSION = 3551ecaa3b48db1ff566f0a3d8258e3c0e47f1f3
 AESD_ASSIGNMENTS_SITE = git@github.com:cu-ecen-aeld/assignments-3-and-later-JayLooi.git
 AESD_ASSIGNMENTS_SITE_METHOD = git
 AESD_ASSIGNMENTS_GIT_SUBMODULES = YES
