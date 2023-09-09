@@ -1,0 +1,52 @@
+#!/bin/sh
+
+case "$1" in
+    start)
+        echo "Loading scull driver..."
+        insmode scull.ko
+        major=$(awk "\$2==\"scull\" {print \$1}" /proc/devices)
+        mknod /dev/scull0 c $major 0
+        mknod /dev/scull1 c $major 1
+        mknod /dev/scull2 c $major 2
+        mknod /dev/scull3 c $major 3
+        mknod /dev/scullpipe0 c $major 4
+        mknod /dev/scullpipe1 c $major 5
+        mknod /dev/scullpipe2 c $major 6
+        mknod /dev/scullpipe3 c $major 7
+        mknod /dev/scullsingle c $major 8
+        mknod /dev/sculluid c $major 9
+        mknod /dev/scullwuid c $major 10
+        mknod /dev/scullpriv c $major 11
+
+        echo "Loading faulty driver..."
+        insmode faulty.ko
+        major=$(awk "\$2==\"faulty\" {print \$1}" /proc/devices)
+        mknod /dev/faulty c $major 0
+
+        echo "Loading hello module..."
+        modprobe hello.ko
+        ;;
+
+    stop)
+        echo "Unloading scull driver..."
+        rmmod scull
+        rm -f /dev/scull[0-3]
+        rm -f /dev/scullpipe[0-4]
+        rm -f /dev/scullsingle
+        rm -f /dev/sculluid
+        rm -f /dev/scullwuid
+        rm -f /dev/scullpriv
+
+        echo "Unloading faulty driver..."
+        rmmod faulty
+        rm -f /dev/faulty
+
+        echo "Unloading hello module..."
+        rmmod hello
+        ;;
+    *)
+        echo "Usage: $0 [start|stop]"
+        exit 1
+esac
+
+exit 0
